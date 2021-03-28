@@ -40,7 +40,8 @@ public class User {
 
 
 
-
+    //.LAZY = 지연 로딩 - 해당 테이블 하나만 FROM 해서 SELECT - 시간 적게 걸림.
+    //.EAGER = 즉시 로딩 - 연관된 테이블 전부 LEFT OUTER JOIN 해서 SELECT - 시간 많이 걸림.(보통 테이블 하나만 걸릴때 사용)
     //User 테이블 입장에서는 1명의 유저, N개의 구매목록이므로 @OneToMany
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")   //mappedBy는 orderDetail에 있는 변수명(user)과 동일 해야함.
                                                             //

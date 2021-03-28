@@ -26,7 +26,7 @@ public class Item {
     private String content;
 
     //1:N
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "item")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "item")
     private List<OrderDetail> orderDetailList;
 
 }
