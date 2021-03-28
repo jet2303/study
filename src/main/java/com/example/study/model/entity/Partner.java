@@ -5,32 +5,35 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-
+@AllArgsConstructor
 @Entity
-public class Item {
+public class Partner {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String status;
-
     private String name;
 
-    private  String title;
+    private String status;
 
-    private String content;
+    private String address;
 
-    private Integer price;
+    private String callCenter;
 
-    private String brandName;
+    private String partnerNumber;
+
+    private String businessNumber;
+
+    private String ceoName;
 
     private LocalDateTime registerdAt;
 
@@ -43,12 +46,4 @@ public class Item {
     private LocalDateTime updatedAt;
 
     private String updatedBy;
-
-
-
-
-//    //1:N
-//    @OneToMany(fetch = FetchType.EAGER, mappedBy = "item")
-//    private List<OrderDetail> orderDetailList;
-
 }
