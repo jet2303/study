@@ -5,6 +5,7 @@ import com.example.study.StudyApplicationTests;
 import com.example.study.model.entity.Item;
 import com.example.study.model.entity.User;
 
+import jdk.vm.ci.meta.Local;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,31 +25,36 @@ public class UserRepositoryTest extends StudyApplicationTests {
 
     @Test
     public void create(){
+        String account = "Test01";
+        String password = "Test01";
+        String ststus = "REGISTERD";
+        String email = "Test01@gmail.com";
+        String phoneNumber = "010-1111-2222";
+        LocalDateTime registeredAt = LocalDateTime.now();
+        LocalDateTime createdAt = LocalDateTime.now();
+        String createdBy = "AdminServer";
+
         User user = new User();
-
-        user.setAccount("TestUser02");
-
-        user.setEmail("user3@gmail.com");
-        user.setPhoneNumber("010-2222-1111");
-        user.setCreatedAt(LocalDateTime.now());
-        user.setCreatedBy("TestUser2");
+        user.setAccount(account);
+        user.setPassword(password);
+        user.setStatus(ststus);
+        user.setEmail(email);
+        user.setPhoneNumber(phoneNumber);
+        //user.setRegisterdAt(registeredAt);
+        user.setCreatedAt(createdAt);
+        user.setCreatedBy(createdBy);
 
         User newUser = userRepository.save(user);
-        System.out.println("User : " + newUser);
+
+        Assertions.assertNotNull(newUser);
     }
 
     @Test
     @Transactional
     public void read(){
-        Optional<User> user = userRepository.findById(7L);
+        User user = userRepository.findFirstByPhoneNumberOrderByIdDesc("010-1111-2222");
 
-        //7번 유저를 가져와서 select, 방금 연결시킨 detailList를 가져와서, 스트림으로 출력, 각각의 detail이 가지고 있는 itemid를 가져옴
-        user.ifPresent(selectUser->{
-            selectUser.getOrderDetailList().stream().forEach(detail -> {
-                Item item = detail.getItem();
-                System.out.println(item);
-            });
-            });
+        Assertions.assertNotNull(user);
     }
 
     @Test
