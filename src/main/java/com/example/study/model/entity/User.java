@@ -6,6 +6,7 @@ package com.example.study.model.entity;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor     //모든 매개변수를 가지는 생성자 생성.
 @NoArgsConstructor      //기본 생성자.
+@ToString(exclude = {"orderGroup"})     //조인을 걸어준 변수,  상호 참조시 lombok의 ToString이 무한반복때문에 오버플로 발생.
 @Entity     //==table
 //@Table(name = "User")   //클래스와 테이블의 이름이 같다면 생략가능
 public class User {
@@ -46,6 +48,11 @@ public class User {
 
     private String updatedBy;
 
+    //User : OrderGroup
+    // 1   :  N
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private List<OrderGroup> orderGroupList;
 
 
 //    //.LAZY = 지연 로딩 - 해당 테이블 하나만 FROM 해서 SELECT - 시간 적게 걸림.

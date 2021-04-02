@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor  //기본 생성자
 @AllArgsConstructor //모든 생성자
 @Entity     //order_detail에 자동 연결
-//@ToString(exclude = {"user", "item"})       //상호참조 에러 방지
+@ToString(exclude = {"orderGroup"})       //상호참조 에러 방지
 public class OrderDetail {
 
     @Id
@@ -41,7 +41,10 @@ public class OrderDetail {
 
     private Long itemId;
 
-    private Long orderGroupId;
+    //OrderDetail N : 1 OrderGroup
+    //private Long orderGroupId;
+    @ManyToOne
+    private OrderGroup orderGroup;
 
 
 //    //OrderDetail 입장에선 N개의 구매목록, 1명의 User

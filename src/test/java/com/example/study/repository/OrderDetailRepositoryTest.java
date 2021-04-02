@@ -32,10 +32,10 @@ public class OrderDetailRepositoryTest extends StudyApplicationTests {
         orderDetail.setCreatedBy("AdminServer");
 
         //어떤 상품을?
-        orderDetail.setItemId(1L);
+        //orderDetail.setItemId(1L);
 
         //어떤 장바구니에?
-        orderDetail.setOrderGroupId(1L);
+        //orderDetail.setOrderGroupId(1L); Long -> OrderGroup
 
         OrderDetail newOrderDetail = orderDetailRepository.save(orderDetail);
 

@@ -30,7 +30,7 @@ public class OrderGroupRepositoryTest extends StudyApplicationTests {
         orderGroup.setCreatedBy("AdminServer");
 
         //외래키 셋팅
-        orderGroup.setUserId(1L);
+ //       orderGroup.setUserId(1L);
 
         OrderGroup newOrderGroup = orderGroupRepository.save(orderGroup);
         Assertions.assertNotNull(newOrderGroup);
