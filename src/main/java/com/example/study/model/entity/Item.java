@@ -32,9 +32,9 @@ public class Item {
 
     private String brandName;
 
-    private LocalDateTime registerdAt;
+    private LocalDateTime registeredAt;
 
-    private LocalDateTime unregisterdAt;
+    private LocalDateTime unregisteredAt;
 
     private LocalDateTime createdAt;
 
@@ -45,7 +45,7 @@ public class Item {
     private String updatedBy;
 
 
-
+    private Long partnerId;
 
 //    //1:N
 //    @OneToMany(fetch = FetchType.EAGER, mappedBy = "item")

@@ -34,9 +34,9 @@ public class User {
     //테이블에서는 phone_number이지만 JPA에서 자동으로 매칭 시켜줌.
     private String phoneNumber;
 
-    private LocalDateTime registerdAt;
+    private LocalDateTime registeredAt;
 
-    private LocalDateTime unregisterdAt;
+    private LocalDateTime unregisteredAt;
 
     private LocalDateTime createdAt;
 
