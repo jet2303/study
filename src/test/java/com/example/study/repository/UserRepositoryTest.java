@@ -40,7 +40,7 @@ public class UserRepositoryTest extends StudyApplicationTests {
         user.setStatus(ststus);
         user.setEmail(email);
         user.setPhoneNumber(phoneNumber);
-        //user.setRegisterdAt(registeredAt);
+        user.setRegisteredAt(registeredAt);
         user.setCreatedAt(createdAt);
         user.setCreatedBy(createdBy);
 

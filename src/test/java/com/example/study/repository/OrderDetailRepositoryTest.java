@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import sun.jvm.hotspot.utilities.Assert;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Repository
@@ -21,12 +22,20 @@ public class OrderDetailRepositoryTest extends StudyApplicationTests {
     public void create(){
         OrderDetail orderDetail = new OrderDetail();
 
-        orderDetail.setOrderAt(LocalDateTime.now());
-        //어떤 아이템
-        //orderDetail.setItemId(7L);
 
-        //어떤 누가?
-        //orderDetail.setUserId(1L);
+
+        orderDetail.setStatus("준비중");
+        orderDetail.setArrivalDate(LocalDateTime.now().plusDays(2));
+        orderDetail.setQuantity(1);
+        orderDetail.setTotalPrice(BigDecimal.valueOf(900000));
+        orderDetail.setCreatedAt(LocalDateTime.now());
+        orderDetail.setCreatedBy("AdminServer");
+
+        //어떤 상품을?
+        orderDetail.setItemId(1L);
+
+        //어떤 장바구니에?
+        orderDetail.setOrderGroupId(1L);
 
         OrderDetail newOrderDetail = orderDetailRepository.save(orderDetail);
 

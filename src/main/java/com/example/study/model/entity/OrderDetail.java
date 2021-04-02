@@ -27,13 +27,9 @@ public class OrderDetail {
 
     private Integer quantity;
 
-    private LocalDateTime orderAt;
+
 
     private BigDecimal totalPrice;
-
-    private LocalDateTime registerdAt;
-
-    private LocalDateTime unregisterdAt;
 
     private LocalDateTime createdAt;
 
@@ -42,6 +38,10 @@ public class OrderDetail {
     private LocalDateTime updatedAt;
 
     private String updatedBy;
+
+    private Long itemId;
+
+    private Long orderGroupId;
 
 
 //    //OrderDetail 입장에선 N개의 구매목록, 1명의 User
