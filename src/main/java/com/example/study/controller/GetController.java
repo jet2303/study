@@ -3,6 +3,7 @@ package com.example.study.controller;
 //controller : 주소들의 묶음
 //controller 패키지는 com.example.study 하위에 만들어져야함.
 import com.example.study.model.SearchParam;
+import com.example.study.model.network.Header;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -36,6 +37,17 @@ public class GetController {
         //객체 리턴시 기본적으로 Json 변환되어 리턴됨.(따로 설정 하지 않는 이상)
         //{"account" : "", "email" : "" , "page" : 0}
         return searchParam;
+
+
+
+    }
+
+
+    //개발을 할때는 카멜 케이스로 개발, API 전문을 주고 받을땐 스네이크 케이스로 주고 받음.
+    @GetMapping("/header")
+    public Header getHeader(){
+        //{"resultCode : "OK", "description : "OK"}
+        return Header.builder().resultCode("OK").description("OK").build();
     }
 
 }
