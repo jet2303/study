@@ -6,10 +6,13 @@ import com.example.study.model.network.Header;
 import com.example.study.model.network.request.UserApiRequest;
 import com.example.study.model.network.response.UserApiResponse;
 import com.example.study.repository.UserRepository;
+import jdk.javadoc.internal.doclets.formats.html.markup.Head;
+import org.graalvm.compiler.lir.LIRInstruction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 //해당 java 클래스는 service로 동작
 @Service
@@ -50,7 +53,22 @@ public class UserApiLogicService implements CrudInterFace<UserApiRequest, UserAp
 
     @Override
     public Header<UserApiResponse> read(long id) {
-        return null;
+        //id -> respository getOne, getById
+        Optional<User> optional = userRepository.findById(id);
+
+        //user->userApiResponse return
+
+        return optional
+                .map(user -> response(user))
+                .orElseGet( ()-> Header.ERROR("데이터 없음") );
+
+        /* 이렇게도 가능.
+        * return userRepository.findById(id)
+        *                       .map(user -> response(user))
+                                .orElseGet( ()-> Header.ERROR("데이터 없음") );
+        *
+        * */
+
     }
 
     @Override
