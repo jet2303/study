@@ -8,6 +8,7 @@ import com.example.study.model.network.request.ItemApiRequest;
 import com.example.study.model.network.response.ItemApiResponse;
 import com.example.study.repository.ItemRepository;
 import com.example.study.repository.PartnerRepository;
+import jdk.javadoc.internal.doclets.formats.html.markup.Head;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +44,13 @@ public class ItemApiLogicService implements CrudInterFace<ItemApiRequest, ItemAp
 
     @Override
     public Header<ItemApiResponse> read(long id) {
-        return null;
+        return itemRepository.findById(id)
+                .map(item -> response(item))
+                .orElseGet(()->{
+                    return Header.ERROR("데이터 없음.");
+                });
+
+
     }
 
     @Override
