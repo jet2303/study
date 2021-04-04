@@ -30,13 +30,17 @@ public class ItemApiController implements CrudInterFace<ItemApiRequest, ItemApiR
 
     @Override
     @PutMapping("")         //      /api/item
-    public Header<ItemApiResponse> update(Header<ItemApiRequest> request) {
-        return null;
+    public Header<ItemApiResponse> update(@RequestBody Header<ItemApiRequest> request) {
+
+        return itemApiLogicService.update(request);     //itemApiLoginService와 연결
     }
 
     @Override
     @DeleteMapping("{id}")      //      /api/item/{id}      //@PathVariable
     public Header delete(@PathVariable Long id) {
-        return null;
+
+        return itemApiLogicService.delete(id);
     }
+
+    //controller 단 -> service 단으로 풀어가기.
 }
