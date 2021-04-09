@@ -18,6 +18,7 @@ public class UserApiController implements CrudInterFace<UserApiRequest, UserApiR
     @Autowired
     private UserApiLogicService userApiLogicService;
 
+
     @Override
     @PostMapping("")        //  /api/user
     public Header<UserApiResponse> create(@RequestBody Header<UserApiRequest> request) {

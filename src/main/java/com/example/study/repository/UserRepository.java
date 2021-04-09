@@ -13,6 +13,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     //번호는 중복이 있을수 있기 때문에 중복 중 가장 처음 검색된것.
     User findFirstByPhoneNumberOrderByIdDesc(String phoneNumber);
 
+    User findByEmail(String email);
+
 //    //QUERY 메소드라고도 함.
 //    //SELECT * FROM user WHERE account = ? << test03, test04
 //    Optional<User> findByAccount(String account);      //account에 매칭되는 것들을 기준으로 Select
