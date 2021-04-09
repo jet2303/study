@@ -3,6 +3,7 @@ package com.example.study.model.entity;
 //엔티티는 DB의 테이블 명과 동일하면됨. 주로 API 통신규격에서는 snake case, java에서는 camel case를 주로 사용하는 차이점.
 
 
+import com.example.study.model.enumclass.UserStatus;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.springframework.data.annotation.CreatedBy;
@@ -35,7 +36,8 @@ public class User {
 
     private String password;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
 
     private String email;
 

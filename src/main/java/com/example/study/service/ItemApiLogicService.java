@@ -1,6 +1,7 @@
 package com.example.study.service;
 
 
+import com.example.study.controller.CrudController;
 import com.example.study.ifs.CrudInterFace;
 import com.example.study.model.entity.Item;
 import com.example.study.model.network.Header;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 
 @Service
 public class ItemApiLogicService implements CrudInterFace<ItemApiRequest, ItemApiResponse> {
+//public class ItemApiLogicService extends CrudController<ItemApiRequest, ItemApiResponse> {
 
     @Autowired
     private PartnerRepository partnerRepository;     //partner 객체를 찾아오기 위하여 선언
@@ -86,6 +88,8 @@ public class ItemApiLogicService implements CrudInterFace<ItemApiRequest, ItemAp
 
     //CRUD 공통 response
     private Header<ItemApiResponse> response(Item item){
+
+        //String statusTitle = item.getStatus().getTitle();   //title을 내려줄수있음
 
         ItemApiResponse body = ItemApiResponse.builder()
                 .id(item.getId())
