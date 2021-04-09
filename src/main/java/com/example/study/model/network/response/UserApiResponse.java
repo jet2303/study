@@ -1,5 +1,6 @@
 package com.example.study.model.network.response;
 
+import com.example.study.model.enumclass.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,7 +20,7 @@ public class UserApiResponse {
 
     private String password;        //암호화(마스킹) 했기 때문에 request와 response를 나누어 만든것(비슷하지만)
 
-    private String status;
+    private UserStatus status;
 
     private String email;
 

@@ -2,6 +2,7 @@ package com.example.study.service;
 
 import com.example.study.ifs.CrudInterFace;
 import com.example.study.model.entity.User;
+import com.example.study.model.enumclass.UserStatus;
 import com.example.study.model.network.Header;
 import com.example.study.model.network.request.UserApiRequest;
 import com.example.study.model.network.response.UserApiResponse;
@@ -21,12 +22,6 @@ public class UserApiLogicService implements CrudInterFace<UserApiRequest, UserAp
     @Autowired
     private UserRepository userRepository;
 
-    //1.request data를 가져오기
-
-    //2.user 생성
-
-    //3. 생성된 데이터를 기준으로 UserApiResponse return
-
     @Override
     public Header<UserApiResponse> create(Header<UserApiRequest> request) {
 
@@ -37,14 +32,13 @@ public class UserApiLogicService implements CrudInterFace<UserApiRequest, UserAp
         User user = User.builder()
                         .account(userApiRequest.getAccount())
                         .password(userApiRequest.getPassword())
-                        .status("REGISTERED")                   //Enum
+                        .status(UserStatus.REGISTERED)                   //Enum
                         .phoneNumber(userApiRequest.getPhoneNumber())
                         .email(userApiRequest.getEmail())
                         .registeredAt(LocalDateTime.now())
                         .build();
 
         User newUser = userRepository.save(user);
-
         //3. 생성된 데이터를 기준으로 UserApiResponse return   > read, update 등에서 쓸일이 많아서 아래에 response 메소드로 따로뺌.
 
 
@@ -127,4 +121,5 @@ public class UserApiLogicService implements CrudInterFace<UserApiRequest, UserAp
         return Header.OK(userApiResponse);
 
     }
+
 }
