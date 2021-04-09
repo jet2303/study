@@ -1,5 +1,6 @@
 package com.example.study.model.network.response;
 
+import com.example.study.model.enumclass.itemStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +18,7 @@ public class ItemApiResponse {
 
     private Long id;        //DB index
 
-    private String status;
+    private itemStatus status;
 
     private String name;
 
