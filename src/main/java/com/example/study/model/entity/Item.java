@@ -1,7 +1,7 @@
 package com.example.study.model.entity;
 
 
-import com.example.study.model.enumclass.itemStatus;
+import com.example.study.model.enumclass.ItemStatus;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.springframework.data.annotation.CreatedBy;
@@ -30,7 +30,7 @@ public class Item {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private itemStatus status;      // 등록 or 해지 or 검수 or 등록대기중
+    private ItemStatus status;      // 등록 or 해지 or 검수 or 등록대기중
 
     private String name;
 

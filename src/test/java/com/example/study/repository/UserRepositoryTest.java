@@ -5,6 +5,7 @@ import com.example.study.StudyApplicationTests;
 import com.example.study.model.entity.Item;
 import com.example.study.model.entity.User;
 
+import com.example.study.model.enumclass.UserStatus;
 import jdk.vm.ci.meta.Local;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -27,7 +28,7 @@ public class UserRepositoryTest extends StudyApplicationTests {
     public void create(){
         String account = "Test03";
         String password = "Test03";
-        String ststus = "REGISTERD";
+        UserStatus ststus = UserStatus.REGISTERED;
         String email = "Test01@gmail.com";
         String phoneNumber = "010-1111-3333";
         LocalDateTime registeredAt = LocalDateTime.now();
@@ -59,9 +60,9 @@ public class UserRepositoryTest extends StudyApplicationTests {
         User user = userRepository.findFirstByPhoneNumberOrderByIdDesc("010-1111-2222");
 
         //chain 패턴을 이용해 업데이트
-        user.setEmail("")
-                .setPhoneNumber("")
-                .setStatus("");
+//        user.setEmail("")
+//                .setPhoneNumber("")
+//                .setStatus("");
 
         User u = new User().setAccount("").setEmail("").setPassword("");
         //if 로 처리로 nullPointerException 처리, 또는 Optional로 회피피

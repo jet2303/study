@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum itemStatus {
+public enum ItemStatus {
 
     REGISTERED(0,"등록","상품 등록 상태"),
     UNREGISTERED(1, "해지", "상품 해지 상태"),
