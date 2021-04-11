@@ -4,32 +4,38 @@ import com.example.study.ifs.CrudInterFace;
 import com.example.study.model.entity.User;
 import com.example.study.model.enumclass.UserStatus;
 import com.example.study.model.network.Header;
+import com.example.study.model.network.Pagenation;
 import com.example.study.model.network.request.UserApiRequest;
 import com.example.study.model.network.response.UserApiResponse;
 import com.example.study.repository.UserRepository;
 import jdk.javadoc.internal.doclets.formats.html.markup.Head;
 import org.graalvm.compiler.lir.LIRInstruction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 //해당 java 클래스는 service로 동작
-@Service
-public class UserApiLogicService implements CrudInterFace<UserApiRequest, UserApiResponse> {
+        @Service
+        public class UserApiLogicService implements CrudInterFace<UserApiRequest, UserApiResponse> {
 
-    @Autowired
-    private UserRepository userRepository;
+            @Autowired
+            private UserRepository userRepository;
 
-    @Override
-    public Header<UserApiResponse> create(Header<UserApiRequest> request) {
+            @Override
+            public Header<UserApiResponse> create(Header<UserApiRequest> request) {
 
-        //1. request data를 가져오기
-        UserApiRequest userApiRequest = request.getData();
+                //1. request data를 가져오기
+                UserApiRequest userApiRequest = request.getData();
 
-        //2.user 생성
-        User user = User.builder()
+                //2.user 생성
+                User user = User.builder()
                         .account(userApiRequest.getAccount())
                         .password(userApiRequest.getPassword())
                         .status(UserStatus.REGISTERED)                   //Enum
@@ -38,11 +44,11 @@ public class UserApiLogicService implements CrudInterFace<UserApiRequest, UserAp
                         .registeredAt(LocalDateTime.now())
                         .build();
 
-        User newUser = userRepository.save(user);
-        //3. 생성된 데이터를 기준으로 UserApiResponse return   > read, update 등에서 쓸일이 많아서 아래에 response 메소드로 따로뺌.
+                User newUser = userRepository.save(user);
+                //3. 생성된 데이터를 기준으로 UserApiResponse return   > read, update 등에서 쓸일이 많아서 아래에 response 메소드로 따로뺌.
 
 
-        return response(newUser);
+                return Header.OK(response(newUser));
     }
 
     @Override
@@ -54,6 +60,8 @@ public class UserApiLogicService implements CrudInterFace<UserApiRequest, UserAp
 
         return optional
                 .map(user -> response(user))
+                //.map(userApiResponse -> Header.OK(userApiResponse))
+                .map(Header::OK)
                 .orElseGet( ()-> Header.ERROR("데이터 없음") );
 
         /* 이렇게도 가능.
@@ -85,7 +93,8 @@ public class UserApiLogicService implements CrudInterFace<UserApiRequest, UserAp
 
         })
         .map(user -> userRepository.save((user)))       //update -> 새로운 user 객체 반환
-        .map(updateUser ->response(updateUser))                     //userApiresponse 생성됨
+        .map(updateUser ->response(updateUser))                     //userApiresponse 생성
+        .map(Header::OK)                                   //한번더 감싸줌
         .orElseGet(()->Header.ERROR("데이터 없음"));
     }
 
@@ -105,7 +114,8 @@ public class UserApiLogicService implements CrudInterFace<UserApiRequest, UserAp
 
 
     //user 객체를 가지고 userApiResponse 객체를 만들어 리턴하는 메소드
-    private Header<UserApiResponse> response(User user){
+//    private Header<UserApiResponse> response(User user){
+    private UserApiResponse response(User user){
         UserApiResponse userApiResponse = UserApiResponse.builder()
                 .id(user.getId())
                 .account(user.getAccount())
@@ -118,8 +128,30 @@ public class UserApiLogicService implements CrudInterFace<UserApiRequest, UserAp
                 .build();
 
         //Header + data 해서 return
-        return Header.OK(userApiResponse);
+        //return Header.OK(userApiResponse);
+        return userApiResponse;
 
     }
 
+    public Header<List<UserApiResponse>> search(Pageable pageable) {
+        Page<User> users = userRepository.findAll(pageable);        //해당 페이지에 있는 유저 정보를 page<User>로 리턴
+
+        //List<UserApiResponse>
+        List<UserApiResponse> userApiResponseList = users.stream()
+                .map(user-> response(user))
+                .collect(Collectors.toList());          //List로 변환
+
+
+        //Header<List<UserApiResponse>
+
+        Pagenation pagenation = Pagenation.builder()
+                .totalpages(users.getTotalPages())
+                .totalElements(users.getTotalElements())
+                .currentPage(users.getNumber())
+                .currentElements(users.getNumberOfElements())
+                .build();
+
+
+        return Header.OK(userApiResponseList,pagenation);
+    }
 }

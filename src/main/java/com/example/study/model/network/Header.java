@@ -28,6 +28,8 @@ public class Header<T> {
     //generic으로
     private T data;
 
+    private Pagenation pagenation;
+
 
     //정상 OK
     public static <T> Header<T> OK(){
@@ -38,6 +40,8 @@ public class Header<T> {
                     .build();
     }
 
+
+
     //DATA OK
     public static <T> Header<T> OK(T data){                 //매개변수로 data
         return (Header<T>) Header.builder()
@@ -45,6 +49,17 @@ public class Header<T> {
                 .resultCode("OK")
                 .description("OK")
                 .data(data)
+                .build();
+    }
+
+    //DATA OK(메소드 오버로딩 pagenation)
+    public static <T> Header<T> OK(T data,Pagenation pagenation){                 //매개변수로 data
+        return (Header<T>) Header.builder()
+                .transactionTime(LocalDateTime.now())
+                .resultCode("OK")
+                .description("OK")
+                .data(data)
+                .pagenation(pagenation)
                 .build();
     }
     //비정상 ERROR
