@@ -1,5 +1,6 @@
 package com.example.study.service;
 
+import com.example.study.controller.CrudController;
 import com.example.study.ifs.CrudInterFace;
 import com.example.study.model.entity.OrderGroup;
 import com.example.study.model.entity.User;
@@ -14,10 +15,12 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
 @Service
-public class OrderGroupApiLogicService implements CrudInterFace<OrderGroupApiRequest, OrderGroupApiResponse> {
+//public class OrderGroupApiLogicService extends CrudController<OrderGroupApiRequest, OrderGroupApiResponse, OrderGroup> {
+public class OrderGroupApiLogicService extends BaseService<OrderGroupApiRequest, OrderGroupApiResponse, OrderGroup> {
 
-    @Autowired
-    private OrderGroupRepository orderGroupRepository;
+//    @Autowired
+//    private OrderGroupRepository orderGroupRepository;
+
 
     @Autowired
     private UserRepository userRepository;      //User의 정보가 필요하기 때문.
@@ -40,7 +43,7 @@ public class OrderGroupApiLogicService implements CrudInterFace<OrderGroupApiReq
                                         .user(userRepository.getOne(body.getUserId()))      //누가 주문했는지
                                         .build();
 
-        OrderGroup newOrederGroup = orderGroupRepository.save(orderGroup);      //저장이된, 인덱스 id가 들어간 새로운 엔티티가 반환됨.
+        OrderGroup newOrederGroup = baseRepository.save(orderGroup);      //저장이된, 인덱스 id가 들어간 새로운 엔티티가 반환됨.
 
         return response(newOrederGroup);
     }
@@ -48,7 +51,7 @@ public class OrderGroupApiLogicService implements CrudInterFace<OrderGroupApiReq
     @Override
     public Header<OrderGroupApiResponse> read(long id) {
 
-        return orderGroupRepository.findById(id)
+        return baseRepository.findById(id)
                  // .map(this::response)          //데이터가 있는경우       //this->현재 클래스
                 .map(orderGroup -> response(orderGroup))
                 .orElseGet(()->Header.ERROR("데이터없음"));   //데이터가 없는경우
@@ -60,7 +63,7 @@ public class OrderGroupApiLogicService implements CrudInterFace<OrderGroupApiReq
 
         OrderGroupApiRequest body = request.getData();
 
-        return orderGroupRepository.findById(body.getId())
+        return baseRepository.findById(body.getId())
                 .map(orderGroup -> {
                     orderGroup.setStatus(body.getStatus())
                             .setOrderType(body.getOrderType())
@@ -76,7 +79,7 @@ public class OrderGroupApiLogicService implements CrudInterFace<OrderGroupApiReq
 
                     return orderGroup;
                 })          //데이터 있는경우
-                .map(changeOrderGroup->orderGroupRepository.save(changeOrderGroup))
+                .map(changeOrderGroup->baseRepository.save(changeOrderGroup))
                 .map(newOrderGroup->response(newOrderGroup))
                 .orElseGet(()->Header.ERROR("데이터 없음"));       //데이터 없는경우
     }
@@ -84,9 +87,9 @@ public class OrderGroupApiLogicService implements CrudInterFace<OrderGroupApiReq
     @Override
     public Header delete(Long id) {
 
-        return orderGroupRepository.findById(id)
+        return baseRepository.findById(id)
                 .map(orderGroup -> {
-                    orderGroupRepository.delete(orderGroup);
+                    baseRepository.delete(orderGroup);
                     return Header.OK();
                 })
                 .orElseGet(()->Header.ERROR("데이터없음"));

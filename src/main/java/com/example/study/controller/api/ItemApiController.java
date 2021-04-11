@@ -2,6 +2,7 @@ package com.example.study.controller.api;
 
 import com.example.study.controller.CrudController;
 import com.example.study.ifs.CrudInterFace;
+import com.example.study.model.entity.Item;
 import com.example.study.model.network.Header;
 import com.example.study.model.network.request.ItemApiRequest;
 import com.example.study.model.network.response.ItemApiResponse;
@@ -14,15 +15,17 @@ import javax.annotation.PostConstruct;
 @RestController
 @RequestMapping("/api/item")
 //public class ItemApiController implements CrudInterFace<ItemApiRequest, ItemApiResponse> {
-public class ItemApiController extends CrudController<ItemApiRequest, ItemApiResponse> {
-    @Autowired
-    private ItemApiLogicService itemApiLogicService;
+public class ItemApiController extends CrudController<ItemApiRequest, ItemApiResponse, Item> {
 
-    @PostConstruct
-    public void init(){
-        //static 메서드와 유사하게 실행됨.
-        this.baseService = itemApiLogicService;
-    }
+
+//    @Autowired
+//    private ItemApiLogicService itemApiLogicService;
+//
+//    @PostConstruct          //초기화 메소드
+//    public void init(){
+//        //static 메서드와 유사하게 실행됨.
+//        this.baseService = itemApiLogicService;
+//    }
 
 // CrudController 추상클래스에 메서드가 정의 되어있음.
 //    @Override
