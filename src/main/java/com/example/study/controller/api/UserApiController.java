@@ -4,6 +4,7 @@ import com.example.study.ifs.CrudInterFace;
 import com.example.study.model.network.Header;
 import com.example.study.model.network.request.UserApiRequest;
 import com.example.study.model.network.response.UserApiResponse;
+import com.example.study.model.network.response.UserOrderInfoApiResponse;
 import com.example.study.service.UserApiLogicService;
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,11 @@ public class UserApiController implements CrudInterFace<UserApiRequest, UserApiR
 
     @Autowired
     private UserApiLogicService userApiLogicService;
+
+    @GetMapping("/{id}/orderInfo")
+    public Header<UserOrderInfoApiResponse> orderInfo(@PathVariable Long id){
+        return userApiLogicService.orderInfo(id);
+    }
 
     @GetMapping("")
     public Header<List<UserApiResponse>> search(@PageableDefault(sort = "id",direction = Sort.Direction.DESC) Pageable pageable){   //오름차순 내림차순

@@ -1,12 +1,17 @@
 package com.example.study.service;
 
 import com.example.study.ifs.CrudInterFace;
+import com.example.study.model.entity.Item;
+import com.example.study.model.entity.OrderGroup;
 import com.example.study.model.entity.User;
 import com.example.study.model.enumclass.UserStatus;
 import com.example.study.model.network.Header;
 import com.example.study.model.network.Pagenation;
 import com.example.study.model.network.request.UserApiRequest;
+import com.example.study.model.network.response.ItemApiResponse;
+import com.example.study.model.network.response.OrderGroupApiResponse;
 import com.example.study.model.network.response.UserApiResponse;
+import com.example.study.model.network.response.UserOrderInfoApiResponse;
 import com.example.study.repository.UserRepository;
 import jdk.javadoc.internal.doclets.formats.html.markup.Head;
 import org.graalvm.compiler.lir.LIRInstruction;
@@ -27,6 +32,12 @@ import java.util.stream.Collectors;
 
             @Autowired
             private UserRepository userRepository;
+
+            @Autowired
+            private OrderGroupApiLogicService orderGroupApiLogicService;
+
+            @Autowired
+            private ItemApiLogicService itemApiLogicService;
 
             @Override
             public Header<UserApiResponse> create(Header<UserApiRequest> request) {
@@ -153,5 +164,42 @@ import java.util.stream.Collectors;
 
 
         return Header.OK(userApiResponseList,pagenation);
+    }
+
+
+    public Header<UserOrderInfoApiResponse> orderInfo(Long id) {
+        //user 찾기
+        User user = userRepository.getOne(id);
+
+        UserApiResponse userApiResponse = response(user);
+
+
+
+        //orderGroup 찾기
+        List<OrderGroup> orderGroupList = user.getOrderGroupList();
+        List<OrderGroupApiResponse> orderGroupApiResponseList = orderGroupList.stream()
+                .map(orderGroup -> {
+                    OrderGroupApiResponse orderGroupApiResponse = orderGroupApiLogicService.response(orderGroup).getData();
+
+
+                    //item api response 생성
+                  List<ItemApiResponse> itemApiResponseList = orderGroup.getOrderDetailList().stream()
+                    .map(detail-> detail.getItem())
+                    .map(item-> itemApiLogicService.response(item).getData())
+                    .collect(Collectors.toList());
+
+                  orderGroupApiResponse.setItemApiResponseList(itemApiResponseList);
+                  return orderGroupApiResponse;
+                })
+
+                .collect(Collectors.toList());
+
+        userApiResponse.setOrderGroupApiResponseList(orderGroupApiResponseList);
+
+        UserOrderInfoApiResponse userOrderInfoApiResponse = UserOrderInfoApiResponse.builder()
+                .userApiResponse(userApiResponse)
+                .build();
+        //item
+        return Header.OK(userOrderInfoApiResponse);
     }
 }

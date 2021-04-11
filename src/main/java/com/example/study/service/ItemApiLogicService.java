@@ -88,7 +88,8 @@ public class ItemApiLogicService extends BaseService<ItemApiRequest, ItemApiResp
     }
 
     //CRUD 공통 response
-    private Header<ItemApiResponse> response(Item item){
+//    private Header<ItemApiResponse> response(Item item){
+    public Header<ItemApiResponse> response(Item item){
 
         //String statusTitle = item.getStatus().getTitle();   //title을 내려줄수있음
 
